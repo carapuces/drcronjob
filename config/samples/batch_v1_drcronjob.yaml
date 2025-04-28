@@ -1,0 +1,9 @@
+apiVersion: batch.drp/v1
+kind: DRCronJob
+metadata:
+  labels:
+    app.kubernetes.io/name: drpcronjob
+    app.kubernetes.io/managed-by: kustomize
+  name: drcronjob-sample
+spec:
+  # TODO(user): Add fields here
