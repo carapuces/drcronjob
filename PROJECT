@@ -6,7 +6,7 @@ domain: drp
 layout:
 - go.kubebuilder.io/v4
 projectName: drpcronjob
-repo: drp.inspurcloud.cn/cronjob
+repo: git.inspur.dev/sunruibin/drcronjob
 resources:
 - api:
     crdVersion: v1
@@ -15,6 +15,6 @@ resources:
   domain: drp
   group: batch
   kind: DRCronJob
-  path: drp.inspurcloud.cn/cronjob/api/v1
+  path: git.inspur.dev/sunruibin/drcronjob/api/v1
   version: v1
 version: "3"

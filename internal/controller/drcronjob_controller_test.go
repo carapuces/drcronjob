@@ -27,7 +27,7 @@ import (
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	batchv1 "drp.inspurcloud.cn/cronjob/api/v1"
+	batchv1 "git.inspur.dev/sunruibin/drcronjob/api/v1"
 )
 
 var _ = Describe("DRCronJob Controller", func() {

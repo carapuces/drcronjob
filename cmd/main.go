@@ -17,15 +17,15 @@ limitations under the License.
 package main
 
 import (
-	apiclient "drp.inspurcloud.cn/cronjob/pkg/util/client"
 	"flag"
+	apiclient "git.inspur.dev/sunruibin/drcronjob/pkg/util/client"
 	"os"
 	// Import all Kubernetes client auth plugins (e.g. Azure, GCP, OIDC, etc.)
 	// to ensure that exec-entrypoint and run can make use of them.
 	_ "k8s.io/client-go/plugin/pkg/client/auth"
 
-	batchv1 "drp.inspurcloud.cn/cronjob/api/v1"
-	"drp.inspurcloud.cn/cronjob/internal/controller"
+	batchv1 "git.inspur.dev/sunruibin/drcronjob/api/v1"
+	"git.inspur.dev/sunruibin/drcronjob/internal/controller"
 	"k8s.io/apimachinery/pkg/runtime"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	clientgoscheme "k8s.io/client-go/kubernetes/scheme"

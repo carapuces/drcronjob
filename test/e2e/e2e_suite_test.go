@@ -25,7 +25,7 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	"drp.inspurcloud.cn/cronjob/test/utils"
+	"git.inspur.dev/sunruibin/drcronjob/test/utils"
 )
 
 var (

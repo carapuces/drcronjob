@@ -1,4 +1,4 @@
-module drp.inspurcloud.cn/cronjob
+module git.inspur.dev/sunruibin/drcronjob
 
 go 1.24.0
 

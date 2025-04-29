@@ -17,18 +17,18 @@ limitations under the License.
 package drcronjob
 
 import (
-	"drp.inspurcloud.cn/cronjob/pkg/controller"
-	"drp.inspurcloud.cn/cronjob/third_party/robfig/cron/v3"
 	drbatchv1 "drp.inspurcloud.cn/drcronjob/pkg/apis/drcronjob/v1"
 	drclientset "drp.inspurcloud.cn/drcronjob/pkg/generated/clientset/versioned"
 	drbatchv1informers "drp.inspurcloud.cn/drcronjob/pkg/generated/informers/externalversions"
 	"fmt"
+	"git.inspur.dev/sunruibin/drcronjob/pkg/controller"
+	"git.inspur.dev/sunruibin/drcronjob/third_party/robfig/cron/v3"
 	batchv1 "k8s.io/api/batch/v1"
 	"k8s.io/client-go/informers"
 	"k8s.io/client-go/kubernetes"
 
 	"context"
-	apiclient "drp.inspurcloud.cn/cronjob/pkg/util/client"
+	apiclient "git.inspur.dev/sunruibin/drcronjob/pkg/util/client"
 	"k8s.io/klog/v2"
 	"testing"
 	"time"

@@ -18,23 +18,23 @@ package drcronjob
 
 import (
 	"context"
-	"drp.inspurcloud.cn/cronjob/pkg/controller"
 	"fmt"
+	"git.inspur.dev/sunruibin/drcronjob/pkg/controller"
 	clientset "k8s.io/client-go/kubernetes"
 	"reflect"
 	"sort"
 	"strings"
 	"time"
 
-	"drp.inspurcloud.cn/cronjob/third_party/robfig/cron/v3"
+	"git.inspur.dev/sunruibin/drcronjob/third_party/robfig/cron/v3"
 
-	"drp.inspurcloud.cn/cronjob/pkg/controller/drcronjob/metrics"
-	jobutil "drp.inspurcloud.cn/cronjob/pkg/controller/job/util"
 	drbatchv1 "drp.inspurcloud.cn/drcronjob/pkg/apis/drcronjob/v1"
 	drclientset "drp.inspurcloud.cn/drcronjob/pkg/generated/clientset/versioned"
 	drscheme "drp.inspurcloud.cn/drcronjob/pkg/generated/clientset/versioned/scheme"
 	drbatchv1informers "drp.inspurcloud.cn/drcronjob/pkg/generated/informers/externalversions/drcronjob/v1"
 	drbatchv1listers "drp.inspurcloud.cn/drcronjob/pkg/generated/listers/drcronjob/v1"
+	"git.inspur.dev/sunruibin/drcronjob/pkg/controller/drcronjob/metrics"
+	jobutil "git.inspur.dev/sunruibin/drcronjob/pkg/controller/job/util"
 	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
