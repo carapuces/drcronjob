@@ -79,4 +79,4 @@ require (
 	sigs.k8s.io/yaml v1.4.0 // indirect
 )
 
-replace drp.inspurcloud.cn/drcronjob v0.0.0 => ./drp.inspurcloud.cn/drcronjob
+replace drp.inspurcloud.cn/drcronjob v0.0.0 => ./third_party/drcronjob

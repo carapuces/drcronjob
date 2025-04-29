@@ -22,9 +22,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
-// NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
-
 type ConcurrencyPolicy string
 
 const (
@@ -105,9 +102,6 @@ type DRCronJobStatus struct {
 	LastSuccessfulTime *metav1.Time `json:"lastSuccessfulTime,omitempty" protobuf:"bytes,5,opt,name=lastSuccessfulTime"`
 }
 
-// +genclient
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-
 // DRCronJob is the Schema for the drcronjobs API.
 type DRCronJob struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -116,8 +110,6 @@ type DRCronJob struct {
 	Spec   DRCronJobSpec   `json:"spec,omitempty"`
 	Status DRCronJobStatus `json:"status,omitempty"`
 }
-
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // DRCronJobList contains a list of DRCronJob.
 type DRCronJobList struct {

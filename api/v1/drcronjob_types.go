@@ -64,10 +64,6 @@ const (
 	JobControllerName = "kubernetes.io/job-controller"
 )
 
-// +genclient
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-// +k8s:prerelease-lifecycle-gen:introduced=1.2
-
 // Job represents the configuration of a single job.
 type Job struct {
 	metav1.TypeMeta `json:",inline"`
@@ -86,9 +82,6 @@ type Job struct {
 	// +optional
 	Status JobStatus `json:"status,omitempty" protobuf:"bytes,3,opt,name=status"`
 }
-
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-// +k8s:prerelease-lifecycle-gen:introduced=1.2
 
 // JobList is a collection of jobs.
 type JobList struct {
@@ -693,10 +686,6 @@ const (
 	ReplaceConcurrent ConcurrencyPolicy = "Replace"
 )
 
-// +genclient
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-// +k8s:prerelease-lifecycle-gen:introduced=1.2
-
 // DRCronJobSpec defines the desired state of DRCronJob.
 type DRCronJobSpec struct {
 	// The schedule in Cron format, see https://en.wikipedia.org/wiki/Cron.
@@ -763,8 +752,8 @@ type DRCronJobStatus struct {
 	LastSuccessfulTime *metav1.Time `json:"lastSuccessfulTime,omitempty" protobuf:"bytes,5,opt,name=lastSuccessfulTime"`
 }
 
-// +kubebuilder:object:root=true
-// +kubebuilder:subresource:status
+// +genclient
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // DRCronJob is the Schema for the drcronjobs API.
 type DRCronJob struct {
@@ -775,15 +764,11 @@ type DRCronJob struct {
 	Status DRCronJobStatus `json:"status,omitempty"`
 }
 
-// +kubebuilder:object:root=true
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // DRCronJobList contains a list of DRCronJob.
 type DRCronJobList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []DRCronJob `json:"items"`
-}
-
-func init() {
-	SchemeBuilder.Register(&DRCronJob{}, &DRCronJobList{})
 }
