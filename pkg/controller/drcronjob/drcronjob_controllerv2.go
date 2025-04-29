@@ -28,13 +28,13 @@ import (
 
 	"github.com/carapuces/drcronjob/third_party/robfig/cron/v3"
 
-	drbatchv1 "drp.inspurcloud.cn/drcronjob/pkg/apis/drcronjob/v1"
-	drclientset "drp.inspurcloud.cn/drcronjob/pkg/generated/clientset/versioned"
-	drscheme "drp.inspurcloud.cn/drcronjob/pkg/generated/clientset/versioned/scheme"
-	drbatchv1informers "drp.inspurcloud.cn/drcronjob/pkg/generated/informers/externalversions/drcronjob/v1"
-	drbatchv1listers "drp.inspurcloud.cn/drcronjob/pkg/generated/listers/drcronjob/v1"
 	"github.com/carapuces/drcronjob/pkg/controller/drcronjob/metrics"
 	jobutil "github.com/carapuces/drcronjob/pkg/controller/job/util"
+	drbatchv1 "github.com/carapuces/drcronjobclient/pkg/apis/drcronjob/v1"
+	drclientset "github.com/carapuces/drcronjobclient/pkg/generated/clientset/versioned"
+	drscheme "github.com/carapuces/drcronjobclient/pkg/generated/clientset/versioned/scheme"
+	drbatchv1informers "github.com/carapuces/drcronjobclient/pkg/generated/informers/externalversions/drcronjob/v1"
+	drbatchv1listers "github.com/carapuces/drcronjobclient/pkg/generated/listers/drcronjob/v1"
 	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"

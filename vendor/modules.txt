@@ -1,23 +1,21 @@
-## workspace
-# drp.inspurcloud.cn/drcronjob v0.0.0 => ./third_party/drcronjob
-## explicit; go 1.24.0
-drp.inspurcloud.cn/drcronjob/pkg/apis/drcronjob
-drp.inspurcloud.cn/drcronjob/pkg/apis/drcronjob/v1
-drp.inspurcloud.cn/drcronjob/pkg/generated/clientset/versioned
-drp.inspurcloud.cn/drcronjob/pkg/generated/clientset/versioned/scheme
-drp.inspurcloud.cn/drcronjob/pkg/generated/clientset/versioned/typed/drcronjob/v1
-drp.inspurcloud.cn/drcronjob/pkg/generated/clientset/versioned/typed/drcronjob/v1/fake
-drp.inspurcloud.cn/drcronjob/pkg/generated/informers/externalversions
-drp.inspurcloud.cn/drcronjob/pkg/generated/informers/externalversions/drcronjob
-drp.inspurcloud.cn/drcronjob/pkg/generated/informers/externalversions/drcronjob/v1
-drp.inspurcloud.cn/drcronjob/pkg/generated/informers/externalversions/internalinterfaces
-drp.inspurcloud.cn/drcronjob/pkg/generated/listers/drcronjob/v1
 # github.com/beorn7/perks v1.0.1
 ## explicit; go 1.11
 github.com/beorn7/perks/quantile
 # github.com/blang/semver/v4 v4.0.0
 ## explicit; go 1.14
 github.com/blang/semver/v4
+# github.com/carapuces/drcronjobclient v1.0.0
+## explicit; go 1.24.0
+github.com/carapuces/drcronjobclient/pkg/apis/drcronjob
+github.com/carapuces/drcronjobclient/pkg/apis/drcronjob/v1
+github.com/carapuces/drcronjobclient/pkg/generated/clientset/versioned
+github.com/carapuces/drcronjobclient/pkg/generated/clientset/versioned/scheme
+github.com/carapuces/drcronjobclient/pkg/generated/clientset/versioned/typed/drcronjob/v1
+github.com/carapuces/drcronjobclient/pkg/generated/informers/externalversions
+github.com/carapuces/drcronjobclient/pkg/generated/informers/externalversions/drcronjob
+github.com/carapuces/drcronjobclient/pkg/generated/informers/externalversions/drcronjob/v1
+github.com/carapuces/drcronjobclient/pkg/generated/informers/externalversions/internalinterfaces
+github.com/carapuces/drcronjobclient/pkg/generated/listers/drcronjob/v1
 # github.com/cespare/xxhash/v2 v2.3.0
 ## explicit; go 1.11
 github.com/cespare/xxhash/v2
@@ -490,7 +488,6 @@ k8s.io/client-go/applyconfigurations/storage/v1alpha1
 k8s.io/client-go/applyconfigurations/storage/v1beta1
 k8s.io/client-go/applyconfigurations/storagemigration/v1alpha1
 k8s.io/client-go/discovery
-k8s.io/client-go/discovery/fake
 k8s.io/client-go/dynamic
 k8s.io/client-go/features
 k8s.io/client-go/gentype

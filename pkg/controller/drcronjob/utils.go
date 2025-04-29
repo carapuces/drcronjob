@@ -17,8 +17,8 @@ limitations under the License.
 package drcronjob
 
 import (
-	drbatchv1 "drp.inspurcloud.cn/drcronjob/pkg/apis/drcronjob/v1"
 	"fmt"
+	drbatchv1 "github.com/carapuces/drcronjobclient/pkg/apis/drcronjob/v1"
 	"time"
 
 	"github.com/robfig/cron/v3"

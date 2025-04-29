@@ -5,7 +5,7 @@ go 1.24.0
 godebug default=go1.23
 
 require (
-	drp.inspurcloud.cn/drcronjob v0.0.0
+	github.com/carapuces/drcronjobclient v1.0.0
 	github.com/onsi/ginkgo/v2 v2.22.0
 	github.com/onsi/gomega v1.36.1
 	k8s.io/apimachinery v0.33.0
@@ -78,5 +78,3 @@ require (
 	sigs.k8s.io/structured-merge-diff/v4 v4.6.0 // indirect
 	sigs.k8s.io/yaml v1.4.0 // indirect
 )
-
-replace drp.inspurcloud.cn/drcronjob v0.0.0 => ./third_party/drcronjob

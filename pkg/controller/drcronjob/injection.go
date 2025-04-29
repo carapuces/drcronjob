@@ -21,8 +21,8 @@ import (
 	"k8s.io/klog/v2"
 	"sync"
 
-	drbatchv1 "drp.inspurcloud.cn/drcronjob/pkg/apis/drcronjob/v1"
-	drclientset "drp.inspurcloud.cn/drcronjob/pkg/generated/clientset/versioned"
+	drbatchv1 "github.com/carapuces/drcronjobclient/pkg/apis/drcronjob/v1"
+	drclientset "github.com/carapuces/drcronjobclient/pkg/generated/clientset/versioned"
 	batchv1 "k8s.io/api/batch/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
