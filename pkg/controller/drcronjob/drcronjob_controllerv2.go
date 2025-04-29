@@ -32,6 +32,7 @@ import (
 	jobutil "drp.inspurcloud.cn/cronjob/pkg/controller/job/util"
 	drbatchv1 "drp.inspurcloud.cn/drcronjob/pkg/apis/drcronjob/v1"
 	drclientset "drp.inspurcloud.cn/drcronjob/pkg/generated/clientset/versioned"
+	drscheme "drp.inspurcloud.cn/drcronjob/pkg/generated/clientset/versioned/scheme"
 	drbatchv1informers "drp.inspurcloud.cn/drcronjob/pkg/generated/informers/externalversions/drcronjob/v1"
 	drbatchv1listers "drp.inspurcloud.cn/drcronjob/pkg/generated/listers/drcronjob/v1"
 	batchv1 "k8s.io/api/batch/v1"
@@ -103,7 +104,7 @@ func NewControllerV2(ctx context.Context, jobInformer batchv1informers.JobInform
 		),
 		kubeClient:  kubeClient,
 		broadcaster: eventBroadcaster,
-		recorder:    eventBroadcaster.NewRecorder(scheme.Scheme, corev1.EventSource{Component: "cronjob-controller"}),
+		recorder:    eventBroadcaster.NewRecorder(drscheme.Scheme, corev1.EventSource{Component: "cronjob-controller"}),
 
 		jobControl:       realJobControl{KubeClient: kubeClient},
 		drCronJobControl: &realCJControl{KubeClient: drkubeClient},
@@ -222,7 +223,10 @@ func (jm *ControllerV2) sync(ctx context.Context, cronJobKey string) (*time.Dura
 		klog.Errorf("sync drcronjob err:%v", syncErr)
 		logger.V(2).Info("Error reconciling cronjob", "cronjob", klog.KObj(drcronJob), "err", syncErr)
 	}
+	if requeueAfter != nil {
+		klog.Infof("Requeue after %s for syncCronJob", requeueAfter.String())
 
+	}
 	// Update the CronJob if needed
 	if updateStatusAfterCleanup || updateStatusAfterSync {
 		if _, err := jm.drCronJobControl.UpdateStatus(ctx, cronJobCopy); err != nil {
@@ -233,6 +237,7 @@ func (jm *ControllerV2) sync(ctx context.Context, cronJobKey string) (*time.Dura
 	}
 
 	if requeueAfter != nil {
+		klog.Infof("Finished sync drcronjob %s/%s", cronJobCopy.Namespace, cronJobCopy.Name)
 		logger.V(4).Info("Re-queuing cronjob", "cronjob", klog.KObj(drcronJob), "requeueAfter", requeueAfter)
 		return requeueAfter, nil
 	}
@@ -524,7 +529,7 @@ func (jm *ControllerV2) syncCronJob(
 		return nil, updateStatus, nil
 	}
 	sched, err := cron.ParseStandard(formatSchedule(cronJob, jm.recorder))
-	klog.Infof("Start job because schedule is %v", sched.Next(time.Now()))
+	klog.Infof("Start job schedule is %v", sched.Next(time.Now()))
 	if err != nil {
 		// this is likely a user error in defining the spec value
 		// we should log the error and not reconcile this cronjob until an update to spec
@@ -550,7 +555,6 @@ func (jm *ControllerV2) syncCronJob(
 		t := nextScheduleTimeDuration(cronJob, now, sched)
 		return t, updateStatus, nil
 	}
-
 	tooLate := false
 	if cronJob.Spec.StartingDeadlineSeconds != nil {
 		tooLate = scheduledTime.Add(time.Second * time.Duration(*cronJob.Spec.StartingDeadlineSeconds)).Before(now)
@@ -574,6 +578,7 @@ func (jm *ControllerV2) syncCronJob(
 			Name:      getJobName(cronJob, *scheduledTime),
 			Namespace: cronJob.Namespace,
 		}}) || cronJob.Status.LastScheduleTime.Equal(&metav1.Time{Time: *scheduledTime}) {
+		klog.Errorf("Not starting job because the scheduled time is already processed")
 		logger.V(4).Info("Not starting job because the scheduled time is already processed", "cronjob", klog.KObj(cronJob), "schedule", scheduledTime)
 		t := nextScheduleTimeDuration(cronJob, now, sched)
 		return t, updateStatus, nil
@@ -588,6 +593,7 @@ func (jm *ControllerV2) syncCronJob(
 		// TODO: for Forbid, we could use the same name for every execution, as a lock.
 		// With replace, we could use a name that is deterministic per execution time.
 		// But that would mean that you could not inspect prior successes or failures of Forbid jobs.
+		klog.Infof("Not starting job because prior execution is still running and concurrency policy is Forbid")
 		logger.V(4).Info("Not starting job because prior execution is still running and concurrency policy is Forbid", "cronjob", klog.KObj(cronJob))
 		jm.recorder.Eventf(cronJob, corev1.EventTypeNormal, "JobAlreadyActive", "Not starting job because prior execution is running and concurrency policy is Forbid")
 		t := nextScheduleTimeDuration(cronJob, now, sched)
@@ -621,11 +627,11 @@ func (jm *ControllerV2) syncCronJob(
 		klog.Error("Create Job failed: ", "cronjob", klog.KObj(cronJob))
 	}
 	switch {
-	case errors.HasStatusCause(err, corev1.NamespaceTerminatingCause):
+	case errors.HasStatusCause(createErr, corev1.NamespaceTerminatingCause):
 		// if the namespace is being terminated, we don't have to do
 		// anything because any creation will fail
-		return nil, updateStatus, err
-	case errors.IsAlreadyExists(err):
+		return nil, updateStatus, createErr
+	case errors.IsAlreadyExists(createErr):
 		// If the job is created by other actor, assume it has updated the cronjob status accordingly.
 		// However, if the job was created by cronjob controller, this means we've previously created the job
 		// but failed to update the active list in the status, in which case we should reattempt to add the job
@@ -648,7 +654,7 @@ func (jm *ControllerV2) syncCronJob(
 		if found {
 			return nil, updateStatus, nil
 		}
-	case err != nil:
+	case createErr != nil:
 		// default error handling
 		jm.recorder.Eventf(cronJob, corev1.EventTypeWarning, "FailedCreate", "Error creating job: %v", err)
 		return nil, updateStatus, err

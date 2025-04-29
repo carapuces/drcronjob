@@ -199,7 +199,7 @@ func nextScheduleTimeDuration(cj *drbatchv1.DRCronJob, now time.Time, schedule c
 			mostRecentTime = &now
 		}
 	}
-
+	//nextTime := schedule.Next(now)
 	t := schedule.Next(*mostRecentTime).Add(nextScheduleDelta).Sub(now)
 	return &t
 }
@@ -218,7 +218,6 @@ func nextScheduleTime(logger klog.Logger, cj *drbatchv1.DRCronJob, now time.Time
 		recorder.Eventf(cj, corev1.EventTypeWarning, "TooManyMissedTimes", "too many missed start times. Set or decrease .spec.startingDeadlineSeconds or check clock skew")
 		logger.Info("too many missed times", "cronjob", klog.KObj(cj))
 	}
-
 	return mostRecentTime, err
 }
 
