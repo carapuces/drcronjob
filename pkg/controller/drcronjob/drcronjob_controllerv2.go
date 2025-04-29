@@ -214,17 +214,19 @@ func (jm *ControllerV2) sync(ctx context.Context, cronJobKey string) (*time.Dura
 	// cronJobCopy is used to combine all the updates to a
 	// CronJob object and perform an actual update only once.
 	cronJobCopy := drcronJob.DeepCopy()
-
+	klog.Infof("cronJobCopy: %+v", cronJobCopy.Name)
 	updateStatusAfterCleanup := jm.cleanupFinishedJobs(ctx, cronJobCopy, jobsToBeReconciled)
 	klog.Infof("Start sync drcronjob %s/%s", cronJobCopy.Namespace, cronJobCopy.Name)
 	requeueAfter, updateStatusAfterSync, syncErr := jm.syncCronJob(ctx, cronJobCopy, jobsToBeReconciled)
 	if syncErr != nil {
+		klog.Errorf("sync drcronjob err:%v", syncErr)
 		logger.V(2).Info("Error reconciling cronjob", "cronjob", klog.KObj(drcronJob), "err", syncErr)
 	}
 
 	// Update the CronJob if needed
 	if updateStatusAfterCleanup || updateStatusAfterSync {
 		if _, err := jm.drCronJobControl.UpdateStatus(ctx, cronJobCopy); err != nil {
+			klog.Error("Error updating DRCronJob status: ", "err", err)
 			logger.V(2).Info("Unable to update status for cronjob", "cronjob", klog.KObj(drcronJob), "resourceVersion", drcronJob.ResourceVersion, "err", err)
 			return nil, err
 		}

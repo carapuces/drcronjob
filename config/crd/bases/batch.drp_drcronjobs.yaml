@@ -59,6 +59,9 @@ spec:
                   a CronJob.
                 properties:
                   metadata:
+                    properties:
+                      creationTimestamp:
+                        type: string
                     type: object
                   spec:
                     description: |-
@@ -425,9 +428,18 @@ spec:
                           More info: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/
                         properties:
                           metadata:
-                            description: |-
-                              Standard object's metadata.
-                              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
+                            properties:
+                              creationTimestamp:
+                                type: string
+                              name:
+                                type: string
+                              labels:
+                                properties:
+                                  longhorn.io/managed-by:
+                                    type: string
+                                  recurring-job.longhorn.io:
+                                    type: string
+                                type: object
                             type: object
                           spec:
                             description: |-
@@ -8723,5 +8735,8 @@ spec:
                 type: string
             type: object
         type: object
+    subresources:
+      # enables the status subresource
+      status: { }
     served: true
     storage: true

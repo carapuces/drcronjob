@@ -277,3 +277,32 @@ func TestCron(t *testing.T) {
 		fmt.Println(n)
 	}
 }
+
+func TestUpdate(t *testing.T) {
+	lcoalRestConfig, err := apiclient.RestConfig("kubernetes-admin@cluster.local", "/Users/ruibin/GolandProjects/DRPCronJob/kubeconfig/localconfig")
+	localDRCronClient := drclientset.NewForConfigOrDie(lcoalRestConfig)
+	version, err := localDRCronClient.Discovery().ServerVersion()
+	if err != nil {
+		return
+	}
+	klog.Infof("version: %v", version)
+	gv := localDRCronClient.BatchV1().RESTClient().APIVersion()
+	klog.Infof("gv: %v", gv)
+	klog.Infof("%v", gv.Version)
+	klog.Infof("%v", gv.Group)
+	klog.Infof("%v", gv.String())
+	obj, err := localDRCronClient.BatchV1().DRCronJobs("").List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		klog.Error(err)
+		klog.Infof("%v", obj)
+		return
+	}
+
+	objupdate, errr := localDRCronClient.BatchV1().DRCronJobs("default").UpdateStatus(context.TODO(), &obj.Items[0], metav1.UpdateOptions{})
+	if errr != nil {
+		klog.Errorf("update drcronjob:%s,status: %v", objupdate.Name, objupdate.Status)
+		klog.Errorf("%v", errr)
+	} else {
+		klog.Infof("update drcronjob:%s,status: %v", objupdate.Name, objupdate.Status)
+	}
+}

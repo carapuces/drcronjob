@@ -35,7 +35,7 @@ import (
 // created as an interface to allow testing.
 type cjControlInterface interface {
 	UpdateStatus(ctx context.Context, cj *drbatchv1.DRCronJob) (*drbatchv1.DRCronJob, error)
-	// GetCronJob retrieves a CronJob.
+	// GetDRCronJob retrieves a CronJob.
 	GetDRCronJob(ctx context.Context, namespace, name string) (*drbatchv1.DRCronJob, error)
 }
 
@@ -51,6 +51,7 @@ func (c *realCJControl) GetDRCronJob(ctx context.Context, namespace, name string
 var _ cjControlInterface = &realCJControl{}
 
 func (c *realCJControl) UpdateStatus(ctx context.Context, cj *drbatchv1.DRCronJob) (*drbatchv1.DRCronJob, error) {
+	klog.Errorf("update drcronjob:%s,status: %v", cj.Name, cj.Status)
 	return c.KubeClient.BatchV1().DRCronJobs(cj.Namespace).UpdateStatus(ctx, cj, metav1.UpdateOptions{})
 }
 
