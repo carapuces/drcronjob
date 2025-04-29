@@ -26,10 +26,10 @@ import (
 	batchv1 "k8s.io/api/batch/v1"
 	"k8s.io/client-go/informers"
 	"k8s.io/client-go/kubernetes"
+	"k8s.io/klog/v2"
 
 	"context"
 	apiclient "github.com/carapuces/drcronjob/pkg/util/client"
-	"k8s.io/klog/v2"
 	"testing"
 	"time"
 
