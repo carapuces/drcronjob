@@ -1,4 +1,4 @@
-module git.inspur.dev/sunruibin/drcronjob
+module github.com/carapuces/drcronjob
 
 go 1.24.0
 

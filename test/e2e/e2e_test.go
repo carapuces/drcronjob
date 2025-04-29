@@ -27,7 +27,7 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	"git.inspur.dev/sunruibin/drcronjob/test/utils"
+	"github.com/carapuces/drcronjob/test/utils"
 )
 
 // namespace where the project is deployed in

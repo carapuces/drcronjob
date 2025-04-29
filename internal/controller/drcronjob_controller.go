@@ -24,7 +24,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 
-	batchv1 "git.inspur.dev/sunruibin/drcronjob/api/v1"
+	batchv1 "github.com/carapuces/drcronjob/api/v1"
 )
 
 // DRCronJobReconciler reconciles a DRCronJob object
