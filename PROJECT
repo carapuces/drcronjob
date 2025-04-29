@@ -5,7 +5,7 @@
 domain: drp
 layout:
 - go.kubebuilder.io/v4
-projectName: drpcronjob
+projectName: drcronjob
 repo: github.com/carapuces/drcronjob
 resources:
 - api:
