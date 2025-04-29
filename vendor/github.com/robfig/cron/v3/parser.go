@@ -56,17 +56,18 @@ type Parser struct {
 //
 // Examples
 //
-//	// Standard parser without descriptors
-//	specParser := NewParser(Minute | Hour | Dom | Month | Dow)
-//	sched, err := specParser.Parse("0 0 15 */3 *")
+//  // Standard parser without descriptors
+//  specParser := NewParser(Minute | Hour | Dom | Month | Dow)
+//  sched, err := specParser.Parse("0 0 15 */3 *")
 //
-//	// Same as above, just excludes time fields
-//	subsParser := NewParser(Dom | Month | Dow)
-//	sched, err := specParser.Parse("15 */3 *")
+//  // Same as above, just excludes time fields
+//  subsParser := NewParser(Dom | Month | Dow)
+//  sched, err := specParser.Parse("15 */3 *")
 //
-//	// Same as above, just makes Dow optional
-//	subsParser := NewParser(Dom | Month | DowOptional)
-//	sched, err := specParser.Parse("15 */3")
+//  // Same as above, just makes Dow optional
+//  subsParser := NewParser(Dom | Month | DowOptional)
+//  sched, err := specParser.Parse("15 */3")
+//
 func NewParser(options ParseOption) Parser {
 	optionals := 0
 	if options&DowOptional > 0 {
@@ -179,10 +180,11 @@ func normalizeFields(fields []string, options ParseOption) ([]string, error) {
 		}
 	}
 	min := max - optionals
+
 	// Validate number of fields
 	if count := len(fields); count < min || count > max {
 		if min == max {
-			return nil, fmt.Errorf("expected exactly %d fields,max: %d found %d: %s", min,max, count, fields)
+			return nil, fmt.Errorf("expected exactly %d fields, found %d: %s", min, count, fields)
 		}
 		return nil, fmt.Errorf("expected %d to %d fields, found %d: %s", min, max, count, fields)
 	}
@@ -213,7 +215,7 @@ func normalizeFields(fields []string, options ParseOption) ([]string, error) {
 }
 
 var standardParser = NewParser(
-	Second | Minute | Hour | Dom | Month | Dow | Descriptor,
+	Minute | Hour | Dom | Month | Dow | Descriptor,
 )
 
 // ParseStandard returns a new crontab schedule representing the given
@@ -245,9 +247,7 @@ func getField(field string, r bounds) (uint64, error) {
 }
 
 // getRange returns the bits indicated by the given expression:
-//
-//	number | number "-" number [ "/" number ]
-//
+//   number | number "-" number [ "/" number ]
 // or error parsing range.
 func getRange(expr string, r bounds) (uint64, error) {
 	var (
